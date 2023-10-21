@@ -22,6 +22,7 @@ def index_range(page: int, page_size: int, **kwargs) -> tuple:
     end_index = start_index + page_size
     return (start_index, end_index)
 
+
 class Server:
     """Server class to paginatte a database of popular baby names.
     """
@@ -45,9 +46,7 @@ class Server:
         """
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
-        '''if page or page_size <= 0:
-            raise AssertionError'''
-        
+
         start_index, end_index = index_range(page, page_size)
 
         if (start_index or end_index) > len(self.dataset()):
