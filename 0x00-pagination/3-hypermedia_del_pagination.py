@@ -49,7 +49,7 @@ class Server:
         }
         """
         dataset = self.indexed_dataset()
-        
+
         start_index = index if index is not None else 0
         end_index = start_index + page_size
 
@@ -57,7 +57,7 @@ class Server:
         assert end_index <= len(dataset)
 
         next_index = (end_index if end_index < len(dataset)
-                        else len(dataset))
+                      else len(dataset))
         # next = min(end_index, dataset)
 
         if self._has_missing_index(dataset):
@@ -70,7 +70,8 @@ class Server:
 
     def _has_missing_index(self, dataset):
         indices = sorted(dataset.keys())
-        return any(index != expected_index for expected_index, index in enumerate(indices))
+        return any(index != expected_index
+                   for expected_index, index in enumerate(indices))
 
     def _reindex_dataset(self, dataset):
         new_dataset = {}
