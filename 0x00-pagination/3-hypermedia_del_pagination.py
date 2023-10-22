@@ -60,21 +60,19 @@ class Server:
                       else len(dataset))
         # next = min(end_index, dataset)
 
-        if self._has_missing_index(dataset):
-            dataset = self._reindex_dataset(dataset)
+        data = []
 
-        data = [dataset[i] for i in range(start_index, next_index)]
+        for i in range(start_index, end_index):
+            try:
+                data = [dataset[i] for i in range(start_index, next_index)]
+            except KeyError:
+                start_index += 1
+                assert end_index + 1 <= len(dataset)
+                end_index += 1
+                next_index = (end_index if end_index < len(dataset)
+                    else len(dataset))
+                data = [dataset[i] for i in range(start_index, next_index)]
 
         return {"index": index, "next_index": next_index,
                 "page_size": page_size, "data": data}
-
-    def _has_missing_index(self, dataset):
-        indices = sorted(dataset.keys())
-        return any(index != expected_index
-                   for expected_index, index in enumerate(indices))
-
-    def _reindex_dataset(self, dataset):
-        new_dataset = {}
-        for i, key in enumerate(sorted(dataset.keys())):
-            new_dataset[i] = dataset[key]
-        return new_dataset
+        
