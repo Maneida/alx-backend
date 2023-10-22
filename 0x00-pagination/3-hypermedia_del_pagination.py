@@ -70,9 +70,8 @@ class Server:
                 assert end_index + 1 <= len(dataset)
                 end_index += 1
                 next_index = (end_index if end_index < len(dataset)
-                    else len(dataset))
+                              else len(dataset))
                 data = [dataset[i] for i in range(start_index, next_index)]
 
         return {"index": index, "next_index": next_index,
                 "page_size": page_size, "data": data}
-        
